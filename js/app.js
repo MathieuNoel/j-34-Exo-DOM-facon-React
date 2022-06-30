@@ -5,6 +5,12 @@ var app = {
     // TODO
     app.drawBoard();
     app.moveForwar()
+    app.moveForwar()
+    app.turnRight()
+    app.moveForwar()
+    app.turnLeft()
+
+    
 
     // Event listeners - TODO
   },
@@ -64,7 +70,7 @@ var app = {
   moveForwar() {
     const cursor = document.querySelector('.cellCurrent');    
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-right')){
-      cursor.classList.remove('cellCurrent');
+      cursor.classList.remove('cellCurrent','cellCurrent-right');
       const newCursor = cursor.nextElementSibling
       newCursor.classList.add('cellCurrent','cellCurrent-right');
       };
@@ -73,17 +79,53 @@ var app = {
       cursor.nextElementSibling.classList.add('cellCurrent','cellCurrent-left');
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-bottom')){
-      const i = cursor.closest('.cellRow').childNodes.length.indexOf()
+      const parent = cursor.closest('.cellRow');      
+      const i = [parent.childNodes.length].indexOf.call(parent.children, cursor);
       cursor.classList.remove('cellCurrent');
-      const toRowDown = cursor.closest('cellRow').nextElementSibling.childNodes[i];
+      const toRowDown = parent.nextElementSibling.childNodes[i];
       toRowDown.classList.add('cellCurrent', 'cellCurrent-bottom');      
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-top')){
-      const i = cursor.closest('.cellRow').childNodes.length.indexOf()
+      const parent = cursor.closest('.cellRow');
+      const i = [parent.childNodes.length].indexOf.call(parent.children, cursor);
       cursor.classList.remove('cellCurrent');
-      const toRowDown = cursor.closest('cellRow').previousElementSibling.childNodes[i];
+      const toRowDown = parent.previousElementSibling.childNodes[i];
       toRowDown.classList.add('cellCurrent', 'cellCurrent-top');      
       };
+  },
+
+  turnRight() {
+    const cursor = document.querySelector('.cellCurrent');
+    if(cursor.classList.contains('cellCurrent-right')){      
+      cursor.classList.remove('cellCurrent-right');
+      cursor.classList.add('cellCurrent-bottom');      
+    } else if(cursor.classList.contains('cellCurrent-bottom')){      
+      cursor.classList.remove('cellCurrent-bottom');     
+      cursor.classList.add('cellCurrent-left');     
+    } else if(cursor.classList.contains('cellCurrent-left')){
+      cursor.classList.remove('cellCurrent-left');
+      cursor.classList.add('cellCurrent-up');
+    } else if(cursor.classList.contains('cellCurrent-up')){
+      cursor.classList.remove('cellCurrent-up');
+      cursor.classList.add('cellCurrent-right');
+    }
+  },
+
+  turnLeft() {
+    const cursor = document.querySelector('.cellCurrent');
+    if(cursor.classList.contains('cellCurrent-right')){      
+      cursor.classList.remove('cellCurrent-right');
+      cursor.classList.add('cellCurrent-top');      
+    } else if(cursor.classList.contains('cellCurrent-top')){      
+      cursor.classList.remove('cellCurrent-top');     
+      cursor.classList.add('cellCurrent-left');     
+    } else if(cursor.classList.contains('cellCurrent-left')){
+      cursor.classList.remove('cellCurrent-left');
+      cursor.classList.add('cellCurrent-bottom');
+    } else if(cursor.classList.contains('cellCurrent-bottom')){
+      cursor.classList.remove('cellCurrent-bottom');
+      cursor.classList.add('cellCurrent-right');
+    }
   }
 };
 
