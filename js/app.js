@@ -1,41 +1,38 @@
 var app = {
   init: function() {
-    ;
-
-    // TODO
-    app.drawBoard();
-    app.moveForwar()
-    app.moveForwar()
-    app.turnRight()
-    app.moveForwar()
-    app.turnLeft()
-
-    
-
-    // Event listeners - TODO
+    app.drawBoard();       
+    const  element = document.querySelector('#launchScript');    
+    element.addEventListener("click", app.handleLaunchScriptButton);
   },
-  handleLaunchScriptButton: function() {
-    // TODO
-    
-    // TODO : get all lines as an array
-
+  handleLaunchScriptButton: function() {    
+    const codeLines = document.querySelector('#userCode').value.split(/\n/);
     window.setTimeout(function() {
       app.codeLineLoop(codeLines, 0);
     }, 2000);
   },
-  codeLineLoop: function(codeLines, index) {
-    
+  codeLineLoop: function(codeLines, index) {  
     // Getting currentLine
-    var currentLine = codeLines[index];
-    console.log(currentLine);
-
-
+    const currentLine = codeLines[index];    
     // Increment
     index++;
-
     // if still a line to interpret
+    switch (currentLine) {
+      case 'move forward':        
+        app.moveForward();
+        break;
+      case 'turn left':        
+        app.turnLeft();
+        break;
+      case 'turn right':        
+        app.turnRight()
+        break;
+      default:
+        alert(`Sorry, you must answer "move forward" or "turn left" or "turn right". the row n°${index} is not correct`);
+        break;
+    }
+    
     if (index < codeLines.length) {
-      // Recall same method (=> make a loop)
+        // Recall same method (=> make a loop)
       window.setTimeout(function() {
         app.codeLineLoop(codeLines, index);
       }, 1000);
@@ -46,7 +43,12 @@ var app = {
     }
   },
   checkSuccess: function() {
-    // TODO display if the game is won or not
+    const cursor = document.querySelector('.cellCurrent');
+    if(cursor.classList.contains('cellEnd')){
+      alert('YOU WIN !!!!')
+    } else {
+      alert('YOU LOSE !!!!')
+    }
   },
   drawBoard: function() {
     const board = document.querySelector('#board')
@@ -67,7 +69,7 @@ var app = {
     cellEnd.classList.add('cellEnd')
   },
 
-  moveForwar() {
+  moveForward() {
     const cursor = document.querySelector('.cellCurrent');    
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-right')){
       cursor.classList.remove('cellCurrent','cellCurrent-right');
