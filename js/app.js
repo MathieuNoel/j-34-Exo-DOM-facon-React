@@ -1,15 +1,28 @@
 var app = {
   init: function() {
     app.drawBoard();       
+    app.eventListener()
+
+  },
+  eventListener: function() {
     const  element = document.querySelector('#launchScript');    
     element.addEventListener("click", app.handleLaunchScriptButton);
+
+    const reloadButton = document.getElementById('playAgain');
+    reloadButton.addEventListener("click", app.reloadLocation)
   },
+
+  reloadLocation: function() {
+    location.reload()
+  },
+
   handleLaunchScriptButton: function() {    
-    const codeLines = document.querySelector('#userCode').value.split(/\n/);
+    const codeLines = document.querySelector('#userCode').value.split(/\n/);    
     window.setTimeout(function() {
       app.codeLineLoop(codeLines, 0);
     }, 2000);
   },
+
   codeLineLoop: function(codeLines, index) {  
     // Getting currentLine
     const currentLine = codeLines[index];    
@@ -24,8 +37,10 @@ var app = {
         app.turnLeft();
         break;
       case 'turn right':        
-        app.turnRight()
+        app.turnRight();
         break;
+      case '':
+        break
       default:
         alert(`Sorry, you must answer "move forward" or "turn left" or "turn right". the row n°${index} is not correct`);
         break;
@@ -42,25 +57,31 @@ var app = {
       }, 1000);
     }
   },
+
   checkSuccess: function() {
     const cursor = document.querySelector('.cellCurrent');
     if(cursor.classList.contains('cellEnd')){
-      alert('YOU WIN !!!!')
+      if(confirm('YOU WIN !!!!, do you wana try again?')){        
+        app.reloadLocation()        
+      } else {
+        alert('thx for your visit, see you soon')
+      }      
     } else {
-      alert('YOU LOSE !!!!')
+      alert('YOU LOSE !!!!');
     }
   },
+
   drawBoard: function() {
-    const board = document.querySelector('#board')
+    const board = document.querySelector('#board');
     for(let i = 0 ; i <= 3 ; i ++) {
-      const cellRow = document.createElement('div')
-      board.appendChild(cellRow)
-      cellRow.classList.add('cellRow')
-      cellRow.setAttribute("id", `row${i}`)
+      const cellRow = document.createElement('div');
+      board.appendChild(cellRow);
+      cellRow.classList.add('cellRow');
+      cellRow.setAttribute("id", `row${i}`);
        for(j = 0 ; j <= 5 ; j++) {
-        const cell = document.createElement('div')
-        cellRow.appendChild(cell)
-        cell.classList.add('cell')
+        const cell = document.createElement('div');
+        cellRow.appendChild(cell);
+        cell.classList.add('cell');
        }
     }
     const random =   Math.floor(Math.random() * 25);
@@ -77,21 +98,21 @@ var app = {
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-right')){
       cursor.classList.remove('cellCurrent','cellCurrent-right');
       const parent = cursor.closest('.cellRow');
-      const index = [parent.firstChild].indexOf.call(parent.children, cursor)
-      if(index == 5) return alert('move forward out of the board is foriden !')
+      const index = [parent.firstChild].indexOf.call(parent.children, cursor);
+      if(index == 5) return alert('move forward out of the board is foriden !');
       cursor.nextElementSibling.classList.add('cellCurrent','cellCurrent-right');
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-left')){
       cursor.classList.remove('cellCurrent');
       const parent = cursor.closest('.cellRow');
-      const index = [parent.firstChild].indexOf.call(parent.children, cursor)
-      if(index == 0) return alert('move forward out of the board is foriden !')
+      const index = [parent.firstChild].indexOf.call(parent.children, cursor);
+      if(index == 0) return alert('move forward out of the board is foriden !');
       cursor.previousElementSibling.classList.add('cellCurrent','cellCurrent-left');
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-bottom')){
       const parent = cursor.closest('.cellRow');
-      const index = [board.childNodes.length].indexOf.call(board.children, parent) 
-      if(index == 3) return alert('move forward out of the board is foriden !')    
+      const index = [board.childNodes.length].indexOf.call(board.children, parent);
+      if(index == 3) return alert('move forward out of the board is foriden !');    
       const i = [parent.childNodes.length].indexOf.call(parent.children, cursor);
       cursor.classList.remove('cellCurrent');
       const toRowDown = parent.nextElementSibling.childNodes[i];
@@ -99,8 +120,7 @@ var app = {
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-top')){
       const parent = cursor.closest('.cellRow');
-      const index = [board.childNodes.length].indexOf.call(board.children, parent)
-      console.log('LELELELEL',index);
+      const index = [board.childNodes.length].indexOf.call(board.children, parent);      
       if( index  == 0){ return alert('move forward out of the board is foriden !')}
       const i = [parent.childNodes.length].indexOf.call(parent.children, cursor);
       cursor.classList.remove('cellCurrent');
