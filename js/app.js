@@ -63,10 +63,12 @@ var app = {
         cell.classList.add('cell')
        }
     }
-    const cellStart = document.querySelector('#row0').firstChild
-    cellStart.classList.add('cellStart','cellCurrent','cellCurrent-right')
-    const cellEnd = document.querySelector('#row3').lastChild
-    cellEnd.classList.add('cellEnd')
+    const random =   Math.floor(Math.random() * 25);
+    const random1 =   Math.floor(Math.random() * 25);
+    const cells =  [document.querySelectorAll('.cell')];
+    const randomCell = cells[Math.floor(Math.random()*cells.length)];
+    randomCell[random].classList.add('cellStart','cellCurrent','cellCurrent-right');
+    randomCell[random1].classList.add('cellEnd');
   },
 
   moveForward() {
@@ -84,7 +86,7 @@ var app = {
       const parent = cursor.closest('.cellRow');
       const index = [parent.firstChild].indexOf.call(parent.children, cursor)
       if(index == 0) return alert('move forward out of the board is foriden !')
-      cursor.nextElementSibling.classList.add('cellCurrent','cellCurrent-left');
+      cursor.previousElementSibling.classList.add('cellCurrent','cellCurrent-left');
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-bottom')){
       const parent = cursor.closest('.cellRow');
