@@ -70,18 +70,26 @@ var app = {
   },
 
   moveForward() {
-    const cursor = document.querySelector('.cellCurrent');    
+    const cursor = document.querySelector('.cellCurrent');      
+    const board = document.getElementById('board');    
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-right')){
       cursor.classList.remove('cellCurrent','cellCurrent-right');
-      const newCursor = cursor.nextElementSibling
-      newCursor.classList.add('cellCurrent','cellCurrent-right');
+      const parent = cursor.closest('.cellRow');
+      const index = [parent.firstChild].indexOf.call(parent.children, cursor)
+      if(index == 5) return alert('move forward out of the board is foriden !')
+      cursor.nextElementSibling.classList.add('cellCurrent','cellCurrent-right');
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-left')){
       cursor.classList.remove('cellCurrent');
+      const parent = cursor.closest('.cellRow');
+      const index = [parent.firstChild].indexOf.call(parent.children, cursor)
+      if(index == 0) return alert('move forward out of the board is foriden !')
       cursor.nextElementSibling.classList.add('cellCurrent','cellCurrent-left');
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-bottom')){
-      const parent = cursor.closest('.cellRow');      
+      const parent = cursor.closest('.cellRow');
+      const index = [board.childNodes.length].indexOf.call(board.children, parent) 
+      if(index == 3) return alert('move forward out of the board is foriden !')    
       const i = [parent.childNodes.length].indexOf.call(parent.children, cursor);
       cursor.classList.remove('cellCurrent');
       const toRowDown = parent.nextElementSibling.childNodes[i];
@@ -89,6 +97,9 @@ var app = {
       };
     if(document.querySelector('.cellCurrent').classList.contains('cellCurrent-top')){
       const parent = cursor.closest('.cellRow');
+      const index = [board.childNodes.length].indexOf.call(board.children, parent)
+      console.log('LELELELEL',index);
+      if( index  == 0){ return alert('move forward out of the board is foriden !')}
       const i = [parent.childNodes.length].indexOf.call(parent.children, cursor);
       cursor.classList.remove('cellCurrent');
       const toRowDown = parent.previousElementSibling.childNodes[i];
